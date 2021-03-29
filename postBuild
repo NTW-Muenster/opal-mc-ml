@@ -1,0 +1,9 @@
+#!/bin/bash
+
+jupyter contrib nbextension install --user
+
+echo "downloading image files..."
+wget -O all-events.zip "https://uni-muenster.sciebo.de/s/GHZpTpV0q8LYQjM/download"
+echo "unzipping..."
+unzip all-events.zip
+echo "done!"
