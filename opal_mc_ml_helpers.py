@@ -24,23 +24,23 @@ picture_filepath = "all-events/"
 def ueberpruefe_dateien():
     """Überprüft ob Bilder und Kategorienliste schon vorhanden sind. Ansonsten werden die Dateien heruntergeladen.
     """    
-import os
-if "all-events" in os.listdir():
-    print("Bilder schon vorhanden")
-else:
-    print("Lade Bilder...", end="")
-    os.system("wget -O all-events.zip \"https://uni-muenster.sciebo.de/s/GHZpTpV0q8LYQjM/download\"")
-    print(" abgeschlossen!")
-    print("Entpacke Bilder...", end="")
-    os.system("unzip all-events.zip")
-    print(" abgeschlossen!")
+    import os
+    if "all-events" in os.listdir():
+        print("Bilder schon vorhanden")
+    else:
+        print("Lade Bilder...", end="")
+        os.system("wget -O all-events.zip \"https://uni-muenster.sciebo.de/s/GHZpTpV0q8LYQjM/download\"")
+        print(" abgeschlossen!")
+        print("Entpacke Bilder...", end="")
+        os.system("unzip all-events.zip")
+        print(" abgeschlossen!")
 
-if "all_events.csv" in os.listdir():
-    print("Kategorienliste schon vorhanden")
-else:    
-    print("Lade Kategorienliste...", end="")
-    os.system("wget -O all_events.csv \"https://uni-muenster.sciebo.de/s/cvZBNrEDIf3MMwn/download\"")
-    print(" abgeschlossen!")
+    if "all_events.csv" in os.listdir():
+        print("Kategorienliste schon vorhanden")
+    else:    
+        print("Lade Kategorienliste...", end="")
+        os.system("wget -O all_events.csv \"https://uni-muenster.sciebo.de/s/cvZBNrEDIf3MMwn/download\"")
+        print(" abgeschlossen!")
 
 
 class Bilddatei(object):
