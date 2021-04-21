@@ -21,7 +21,9 @@ from tensorflow.keras import layers, models
 cat_filepath = "all_events.csv"
 picture_filepath = "all-events/"
 
-# Wenn die Trainingsbilder noch nicht vorhanden werden diese hier geladen und entpackt.
+def ueberpruefe_dateien():
+    """Überprüft ob Bilder und Kategorienliste schon vorhanden sind. Ansonsten werden die Dateien heruntergeladen.
+    """    
 import os
 if "all-events" in os.listdir():
     print("Bilder schon vorhanden")
