@@ -37,7 +37,7 @@ if "all_events.csv" in os.listdir():
     print("Kategorienliste schon vorhanden")
 else:    
     print("Lade Kategorienliste...", end="")
-    os.system("wget -O all-events.zip \"https://uni-muenster.sciebo.de/s/cvZBNrEDIf3MMwn/download\"")
+    os.system("wget -O all_events.csv \"https://uni-muenster.sciebo.de/s/cvZBNrEDIf3MMwn/download\"")
     print(" abgeschlossen!")
 
 
