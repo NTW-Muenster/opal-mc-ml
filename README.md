@@ -9,7 +9,7 @@ Die Eingabe besteht dabei nur aus den (leicht vorverarbeiteten) Ereignisbildern 
 
 ## Programm ausführen
 Das Programm besteht aus einem IPython-Notebook und einer Python-Datei. Folgende Bibliotheken werden benötigt:
-Name|[Anaconda](https://www.anaconda.com/)|[https://mybinder.org](mybinder.org)|[Google Colab](https://colab.research.google.com/)|[WWU JupyterHub](https://jupyterhub.wwu.de/)
+Name|[Anaconda](https://www.anaconda.com/)|[mybinder.org](https://mybinder.org)|[Google Colab](https://colab.research.google.com/)|[WWU JupyterHub](https://jupyterhub.wwu.de/)
 ---|---|---|---|---
 |numpy|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:
 |matplotlib|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:
@@ -34,7 +34,7 @@ Bei Google Colab lässt sich alles einwandfrei ausführen. Ein Google-Account is
 ### WWU JupyterHub
 [WWU JupyterHub](https://jupyterhub.wwu.de/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fntiltmann%2Fopal-mc-ml&urlpath=lab%2Ftree%2Fopal-mc-ml%2Fopal_mc_ml.ipynb&branch=main)
 
-Im JupyterHub der [WWU](uni-muenster.de) muss scikit-image mit dem Befehl `pip install --user scikit-image` installiert werden. Das Trainieren funktioniert nur einwandfrei, wenn die Option mit 8GB Arbeitsspeicher gewählt wird. Eine WWU-Kennung wird benötigt.
+Im JupyterHub der [WWU](https://uni-muenster.de) muss scikit-image mit dem Befehl `pip install --user scikit-image` installiert werden. Das Trainieren funktioniert nur einwandfrei, wenn die Option mit 8GB Arbeitsspeicher gewählt wird. Eine WWU-Kennung wird benötigt.
 
 ## Technische Details
 Die Bilder sind vorsortiert. Der Datensatz besteht nur noch aus Ereignisbildern in der Frontalansicht. Die Anzeigen des Event-Displays sind abgeschnitten um sicherzustellen, dass diese Bilddetails nicht mitgelernt werden. Außerdem sind alle Logos und Legenden abgeschnitten. Die Bilder sind auf eine Größe von 200x200px verkleinert, um das Lernen zu vereinfachen. Der Datensatz umfasst ca. 620 Ereignisse. Diese Ereignisse verteilen sich so auf die Zerfallskanäle, wie man dies messen würde (ca. 88% hadronisch, jeweils ca. 4% Elektron, Myon, Tau, siehe auch [hier](https://pdg.lbl.gov/2020/listings/rpp2020-list-z-boson.pdf)). Die Bilder können bei [sciebo](https://uni-muenster.sciebo.de/s/GHZpTpV0q8LYQjM) heruntergeladen werden. Bei Ausführen des Notebooks geschieht dies aber auch automatisch.
@@ -42,6 +42,7 @@ Die Bilder sind vorsortiert. Der Datensatz besteht nur noch aus Ereignisbildern 
 Um das Training robuster zu machen werden die Trainingsdaten verfielfacht. Dazu werden Kopien der Ereignisbilder erstellt und beliebig rotiert sowie zufällig gespiegelt (dies ändert die Aussage der Bilder in diesem Fall nicht). Die Anzahl aller Bilder wird mit 5 multipliziert. Darüber hinaus wird die Anzahl der Ereignisse mit leptonischen Zerfall zusätzlich mit 12 multipliziert. Dadurch sind die Eingabedaten gleichmäßiger auf die Kategorien verteilt.
 
 Das Training selbst wird von einem [Convolutional Neural Network](https://de.wikipedia.org/wiki/Convolutional_Neural_Network) übernommen. Das Netzwerk bestitzt drei faltende Ebenen (convolutional layer) und ein voll verbundenes (fully connected) Netzwerk mit einer versteckten Ebenen (hidden layer). Die Eingabeobjekte sind 200x200-Matrizen mit je drei Farbwerten pro Pixel. Die einzelnen Ebenen sind:
+
 | Nr. | Bezeichnung    | englisch      | Hyperparameter                                                  | Ausgabe               | Anzahl Parameter                              |
 |-----|----------------|---------------|-----------------------------------------------------------------|-----------------------|-----------------------------------------------|
 | 1.  | falten         | convolutional | 32 Filter in einer 3x3-Nachbarschaft                            | 198x198px * 32 Filter | (3x3px * 3 Farbwerte + 1) * 32 = 896          |
@@ -53,4 +54,5 @@ Das Training selbst wird von einem [Convolutional Neural Network](https://de.wik
 | 7.  | serialisieren  | flatten       | Aneinanderreihen aller Pixel                                    | 1024 Einzelwerte      | 0                                             |
 | 8.  | voll verbunden | dense         | 64 Neuronen, jedes ist mit jedem aus vorheriger Ebene verbunden | 64 Einzelwerte        | (1024 + 1) * 64 = 65.600                      |
 | 9.  | voll verbunden | dense         | 4 Neuronen, jedes ist mit jedem aus vorheriger Ebene verbunden  | 4 Einzelwerte         | (64 + 1) * 4 = 260                            |
+
 Insgesamt werden also 122.180 Parameter trainiert. Als Aktivierungsfunktion wir ReLU genutzt. Die Werte der vier Ausgabeneuronen werden mit Softmax normalisiert. Die Kategorie mit dem größten Wert wird als Vorhersage verwendet.
