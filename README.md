@@ -9,7 +9,7 @@ Die Eingabe besteht dabei nur aus den (leicht vorverarbeiteten) Ereignisbildern 
 
 ## Programm ausführen
 Das Programm besteht aus einem IPython-Notebook und einer Python-Datei. Folgende Bibliotheken werden benötigt:
-Name|[Anaconda](https://www.anaconda.com/)|[mybinder.org](mybinder.org)|[Google Colab](https://colab.research.google.com/)|[WWU JupyterHub](https://jupyterhub.wwu.de/)
+Name|[Anaconda](https://www.anaconda.com/)|[https://mybinder.org](mybinder.org)|[Google Colab](https://colab.research.google.com/)|[WWU JupyterHub](https://jupyterhub.wwu.de/)
 ---|---|---|---|---
 |numpy|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:
 |matplotlib|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:
