@@ -39,20 +39,20 @@ Im JupyterHub der [WWU](https://uni-muenster.de) muss scikit-image mit dem Befeh
 ## Technische Details
 Die Bilder sind vorsortiert. Der Datensatz besteht nur noch aus Ereignisbildern in der Frontalansicht. Die Anzeigen des Event-Displays sind abgeschnitten um sicherzustellen, dass diese Bilddetails nicht mitgelernt werden. Außerdem sind alle Logos und Legenden abgeschnitten. Die Bilder sind auf eine Größe von 200x200px verkleinert, um das Lernen zu vereinfachen. Der Datensatz umfasst ca. 620 Ereignisse. Diese Ereignisse verteilen sich so auf die Zerfallskanäle, wie man dies messen würde (ca. 88% hadronisch, jeweils ca. 4% Elektron, Myon, Tau, siehe auch [hier](https://pdg.lbl.gov/2020/listings/rpp2020-list-z-boson.pdf)). Die Bilder können bei [sciebo](https://uni-muenster.sciebo.de/s/GHZpTpV0q8LYQjM) heruntergeladen werden. Bei Ausführen des Notebooks geschieht dies aber auch automatisch.
 
-Um das Training robuster zu machen werden die Trainingsdaten verfielfacht. Dazu werden Kopien der Ereignisbilder erstellt und beliebig rotiert sowie zufällig gespiegelt (dies ändert die Aussage der Bilder in diesem Fall nicht). Die Anzahl aller Bilder wird mit 5 multipliziert. Darüber hinaus wird die Anzahl der Ereignisse mit leptonischen Zerfall zusätzlich mit 12 multipliziert. Dadurch sind die Eingabedaten gleichmäßiger auf die Kategorien verteilt.
+Um das Training robuster zu machen werden die Trainingsdaten verfielfacht. Dazu werden Kopien der Ereignisbilder erstellt und beliebig rotiert sowie zufällig gespiegelt (dies ändert die Aussage der Bilder in diesem Fall nicht). Die Anzahl aller Bilder wird mit 3 multipliziert. Darüber hinaus wird die Anzahl der Ereignisse mit leptonischen Zerfall zusätzlich mit 20 multipliziert. Dadurch sind die Eingabedaten gleichmäßiger auf die Kategorien verteilt.
 
 Das Training selbst wird von einem [Convolutional Neural Network](https://de.wikipedia.org/wiki/Convolutional_Neural_Network) übernommen. Das Netzwerk bestitzt drei faltende Ebenen (convolutional layer) und ein voll verbundenes (fully connected) Netzwerk mit einer versteckten Ebenen (hidden layer). Die Eingabeobjekte sind 200x200-Matrizen mit je drei Farbwerten pro Pixel. Die einzelnen Ebenen sind:
 
 | Nr. | Bezeichnung    | englisch      | Hyperparameter                                                  | Ausgabe               | Anzahl Parameter                              |
 |-----|----------------|---------------|-----------------------------------------------------------------|-----------------------|-----------------------------------------------|
 | 1.  | falten         | convolutional | 32 Filter in einer 3x3-Nachbarschaft                            | 198x198px * 32 Filter | (3x3px * 3 Farbwerte + 1) * 32 = 896          |
-| 2.  | zusammenfassen | pooling       | Maximum in einer 4x4-Nachbarschaft                              | 49x49px * 32 Filter   | 0                                             |
-| 3.  | falten         | convolutional | 64 Filter in einer 3x3-Nachbarschaft                            | 47x47px * 64 Filter   | (3x3px * 32 Filter von 1. + 1) * 64 = 18.496  |
-| 4.  | zusammenfassen | pooling       | Maximum einer 3x3-Nachbarschaft                                 | 15x15px * 64 Filter   | 0                                             |
-| 5.  | falten         | convolutional | 64 Filter in einer 3x3-Nachbarschaft                            | 13x13px * 64 Filter   | (3x3px * 64 Filter von 3. + 1) * 64 = 36.928  |
-| 6.  | zusammenfassen | pooling       | Maximum einer 3x3 Nachbarschaft                                 | 4x4px * 64 Filter     | 0                                             |
-| 7.  | serialisieren  | flatten       | Aneinanderreihen aller Pixel                                    | 1024 Einzelwerte      | 0                                             |
-| 8.  | voll verbunden | dense         | 64 Neuronen, jedes ist mit jedem aus vorheriger Ebene verbunden | 64 Einzelwerte        | (1024 + 1) * 64 = 65.600                      |
+| 2.  | zusammenfassen | pooling       | Maximum in einer 3x3-Nachbarschaft                              | 66x66px * 32 Filter   | 0                                             |
+| 3.  | falten         | convolutional | 64 Filter in einer 3x3-Nachbarschaft                            | 64x64px * 64 Filter   | (3x3px * 32 Filter von 1. + 1) * 64 = 18.496  |
+| 4.  | zusammenfassen | pooling       | Maximum einer 3x3-Nachbarschaft                                 | 21x21px * 64 Filter   | 0                                             |
+| 5.  | falten         | convolutional | 64 Filter in einer 3x3-Nachbarschaft                            | 19x19px * 64 Filter   | (3x3px * 64 Filter von 3. + 1) * 64 = 36.928  |
+| 6.  | zusammenfassen | pooling       | Maximum einer 3x3 Nachbarschaft                                 | 6x6px * 64 Filter     | 0                                             |
+| 7.  | serialisieren  | flatten       | Aneinanderreihen aller Pixel                                    | 2304 Einzelwerte      | 0                                             |
+| 8.  | voll verbunden | dense         | 64 Neuronen, jedes ist mit jedem aus vorheriger Ebene verbunden | 64 Einzelwerte        | (2304 + 1) * 64 = 147.520                     |
 | 9.  | voll verbunden | dense         | 4 Neuronen, jedes ist mit jedem aus vorheriger Ebene verbunden  | 4 Einzelwerte         | (64 + 1) * 4 = 260                            |
 
-Insgesamt werden also 122.180 Parameter trainiert. Als Aktivierungsfunktion wir ReLU genutzt. Die Werte der vier Ausgabeneuronen werden mit Softmax normalisiert. Die Kategorie mit dem größten Wert wird als Vorhersage verwendet.
+Insgesamt werden also 204.100 Parameter trainiert. Als Aktivierungsfunktion wir ReLU genutzt. Die Werte der vier Ausgabeneuronen werden mit Softmax normalisiert. Die Kategorie mit dem größten Wert wird als Vorhersage verwendet.

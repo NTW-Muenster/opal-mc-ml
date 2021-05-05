@@ -457,7 +457,7 @@ class Modell:
         """        
         self.model = models.Sequential()
         self.model.add(layers.Conv2D(32, (3, 3), activation='relu', input_shape=(200, 200, 3)))
-        self.model.add(layers.MaxPooling2D((4, 4)))
+        self.model.add(layers.MaxPooling2D((3, 3)))
         self.model.add(layers.Conv2D(64, (3, 3), activation='relu'))
         self.model.add(layers.MaxPooling2D((3, 3)))
         self.model.add(layers.Conv2D(64, (3, 3), activation='relu'))
