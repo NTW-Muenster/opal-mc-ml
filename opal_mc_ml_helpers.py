@@ -444,7 +444,7 @@ class Modell:
     """Diese Klasse verarbeitet das Machine Learning Modell.
     """    
     def __init__(self):
-        """Kontruktor.
+        """Konstruktor.
         """        
         self.model=None
         self.history=None
@@ -452,7 +452,7 @@ class Modell:
         self.vali=None
         self.train_time=None
 
-    def lade_modellstruktur(self):
+    def lade_modellstruktur_standard(self):
         """Lade die standardmäßige Struktur des Modells. Dies ist ein faltendes neuronales Netz mit drei faltenen Ebenen und 2 voll verbundenen Ebenen.
         """        
         self.model = models.Sequential()
@@ -465,6 +465,68 @@ class Modell:
         self.model.add(layers.Flatten())
         self.model.add(layers.Dense(64, activation='relu'))
         self.model.add(layers.Dense(4))
+
+    def neue_ebene_convolution(self, anzahl_filter=32, groesse_filter=(3, 3), aktivierung='relu'):
+        """Füge eine faltende Ebene (convolutional layer) hinzu.
+
+        Args:
+            anzahl_filter (Zahl, optional): Definiert die Anzahl der Filter. Standardmäßig: 32.
+            groesse_filter (Tupel mit zwei Zahlen, optional): Definiert die Größe der Filter. Standardmäßig: (3, 3).
+            aktivierung (Text, optional): Definiert die Aktivierungsfunktion. Standardmäßig: 'relu'.
+        """        
+        if self.model is None:
+            self.model = models.Sequential()
+            self.model.add(layers.Conv2D(anzahl_filter, groesse_filter, activation=aktivierung, input_shape=(200, 200, 3)))
+        else:
+            self.model.add(layers.Conv2D(anzahl_filter, groesse_filter, activation=aktivierung))
+
+    def neue_ebene_pooling(self, groesse_filter=(3, 3)):
+        """Füge eine neue zusammenfassende Ebene (pooling layer) hinzu.
+
+        Args:
+            groesse_filter (Tupel mit zwei Zahlen, optional): Definiert die Größe der Nachbarschaft, in der zusammengefasst wird. Standardmäßig: (3, 3).
+        """        
+        if self.model is None:
+            self.model = models.Sequential()
+            self.model.add(layers.MaxPooling2D(groesse_filter), input_shape=(200, 200, 3))
+        else:
+            self.model.add(layers.MaxPooling2D(groesse_filter))
+
+    def neue_ebene_flatten(self):
+        """Reiht alle Elemente der 2D-Struktur aneinander.
+        """        
+        if self.model is None:
+            self.model = models.Sequential()
+            self.model.add(layers.Flatten(), input_shape=(200, 200, 3))
+        else:
+            self.model.add(layers.Flatten())
+
+    def neue_ebene_dense(self, anzahl_neuronen=64, aktivierung='relu'):
+        """Fügt eine neue voll verbundene Ebene (dense / fully connected layer) hinzu.
+
+        Args:
+            anzahl_neuronen (Zahl, optional): Definiert die Anzahl der Neuronen in dieser Ebene. Standardmäßig: 64.
+            aktivierung (Text, optional): Definiert die Aktivierungsfunktion. Standardmäßig: 'relu'.
+        """        
+        if self.model is None:
+            self.model = models.Sequential()
+            self.model.add(layers.Dense(anzahl_neuronen, activation=aktivierung), input_shape=(200, 200, 3))
+        else:
+            self.model.add(layers.Dense(anzahl_neuronen, activation=aktivierung))
+
+    def neue_ebene_abschluss(self):
+        """Fügt eine neue letzte Ebene mit 4 Neuronen hinzu.
+        """        
+        if self.model is None:
+            self.model = models.Sequential()
+            self.model.add(layers.Dense(4), input_shape=(200, 200, 3))
+        else:
+            self.model.add(layers.Dense(4))
+
+    def loesche_modellstruktur(self):
+        """Löscht die aktuelle Modellstruktur
+        """        
+        self.model = None
 
     def zeige_modelluebersicht(self):
         """Zeige eine Übersicht der einzelnen Modellebenen.
@@ -503,7 +565,7 @@ class Modell:
             RuntimeError: Modell oder Daten fehlen
         """        
         if self.model is None:
-            raise RuntimeError("Modell wurde noch nicht geladen")
+            raise RuntimeError("Modell wurde (noch) nicht geladen")
         if self.train is None:
             raise RuntimeError("Trainingsdaten wurden noch nicht geladen")
         if self.vali is None:
@@ -572,3 +634,7 @@ class Modell:
     #     bilddaten_vorhersage = self.erstelle_vorhersage(testdaten)
     #     zeige_confusion_matrix(testdaten, bilddaten_vorhersage)
 
+
+# ########uncomment for debugging in notebook
+# import os
+# ueberpruefe_dateien()
