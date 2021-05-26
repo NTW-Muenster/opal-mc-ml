@@ -565,7 +565,7 @@ class Modell:
             RuntimeError: Modell oder Daten fehlen
         """        
         if self.model is None:
-            raise RuntimeError("Modell wurde (noch) nicht geladen")
+            raise RuntimeError("Modell wurde noch nicht geladen")
         if self.train is None:
             raise RuntimeError("Trainingsdaten wurden noch nicht geladen")
         if self.vali is None:
