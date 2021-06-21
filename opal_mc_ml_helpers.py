@@ -486,7 +486,7 @@ class MLModel:
         """        
         if self.model is None:
             self.model = models.Sequential()
-            self.model.add(layers.MaxPooling2D(size_filter), input_shape=(200, 200, 3))
+            self.model.add(layers.MaxPooling2D(size_filter, input_shape=(200, 200, 3)))
         else:
             self.model.add(layers.MaxPooling2D(size_filter))
 
@@ -495,7 +495,7 @@ class MLModel:
         """        
         if self.model is None:
             self.model = models.Sequential()
-            self.model.add(layers.Flatten(), input_shape=(200, 200, 3))
+            self.model.add(layers.Flatten(input_shape=(200, 200, 3)))
         else:
             self.model.add(layers.Flatten())
 
@@ -508,7 +508,7 @@ class MLModel:
         """        
         if self.model is None:
             self.model = models.Sequential()
-            self.model.add(layers.Dense(count_neurons, activation=activation), input_shape=(200, 200, 3))
+            self.model.add(layers.Dense(count_neurons, activation=activation, input_shape=(200, 200, 3)))
         else:
             self.model.add(layers.Dense(count_neurons, activation=activation))
 
@@ -517,7 +517,7 @@ class MLModel:
         """        
         if self.model is None:
             self.model = models.Sequential()
-            self.model.add(layers.Dense(4), input_shape=(200, 200, 3))
+            self.model.add(layers.Dense(4, input_shape=(200, 200, 3)))
         else:
             self.model.add(layers.Dense(4))
 
