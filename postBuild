@@ -3,7 +3,7 @@
 jupyter contrib nbextension install --user
 
 echo "downloading image files..."
-wget -O all-events.zip "https://uni-muenster.sciebo.de/s/GHZpTpV0q8LYQjM/download"
+wget -O all-events.zip "https://raw.githubusercontent.com/ntiltmann/opal-mc-ml/main/all-events.zip"
 echo "unzipping..."
 unzip all-events.zip
 echo "done!"

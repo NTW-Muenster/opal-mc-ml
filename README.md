@@ -8,7 +8,9 @@ Diese Masterclass basiert auf einer [anderen Masterclass](http://www.hep.manches
 Die Eingabe besteht dabei nur aus den (leicht vorverarbeiteten) Ereignisbildern der ursprünglichen Masterclass. Aktuell können nur Bilder in Frontalaufnahme verarbeitet werden. Dies sind ca. 620 der insgesamt 1000 Ereignisbilder. Darüber hinaus wird eine Liste mit den Dateinamen und der manuell ermittelten Kategorie geladen um das Training und die anschließende Bewertung des Modells zu ermöglichen.
 
 ## Programm ausführen
-Das Programm besteht aus einem IPython-Notebook und einer Python-Datei. Folgende Bibliotheken werden benötigt:
+Das Programm besteht immer aus einem IPython-Notebook und einer Python-Datei. Das volle Programm ist in der Datei [opal_mc_ml.ipynb](opal_mc_ml.ipynb) vorhanden. Das Notebook [opal_mc_ml_minimal.ipynb](opal_mc_ml_minimal.ipynb) importiert nur alle Hilfsfunktionen aus der Python-Datei. Der Rest kann dann von Hand erarbeitet werden
+
+Folgende Bibliotheken werden benötigt:
 Name|[Anaconda](https://www.anaconda.com/)|[mybinder.org](https://mybinder.org)|[Google Colab](https://colab.research.google.com/)|[WWU JupyterHub](https://jupyterhub.wwu.de/)
 ---|---|---|---|---
 |numpy|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:
@@ -22,19 +24,25 @@ Name|[Anaconda](https://www.anaconda.com/)|[mybinder.org](https://mybinder.org)|
 Auf lokalen [Anaconda](https://www.anaconda.com/products/individual#Downloads)-Installationen kann das Notebook ohne Probleme ausgeführt werden. Dazu muss in der *Anaconda Prompt* der Befehl `pip install tensorflow` ausgeführt werden, um TensorFlow zu installieren.
 
 ### mybinder.org
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ntiltmann/opal-mc-ml/HEAD?filepath=opal_mc_ml.ipynb)
+
 
 Bei mybinder.org ist die Masterclass **nicht** lauffähig, da zu wenig Arbeitsspeicher verfügbar ist.
 
 ### Google Colab
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ntiltmann/opal-mc-ml/blob/main/opal_mc_ml.ipynb)
 
 Bei Google Colab lässt sich alles einwandfrei ausführen. Google stellt den Nutzern auch wahlweise GPU-Ressourcen zur Verfügung. Bei entsprechender Auswahl der Notebookeinstellungen wird das Training automatisch auf GPUs ausgeführt. Ein Google-Account ist erforderlich.
 
 ### WWU JupyterHub
-[WWU JupyterHub](https://jupyterhub.wwu.de/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fntiltmann%2Fopal-mc-ml&urlpath=lab%2Ftree%2Fopal-mc-ml%2Fopal_mc_ml.ipynb&branch=main)
 
 Im JupyterHub der [WWU](https://uni-muenster.de) muss scikit-image für jeden User einzeln mit dem Befehl `pip install --user scikit-image` installiert werden. Das Trainieren funktioniert nur einwandfrei, wenn die Option mit 8GB Arbeitsspeicher gewählt wird. Eine WWU-Kennung wird benötigt.
+
+### Links
+|Full|Minimal|
+|---|---|
+|[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ntiltmann/opal-mc-ml/HEAD?filepath=opal_mc_ml.ipynb)|[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ntiltmann/opal-mc-ml/HEAD?filepath=opal_mc_ml_minimal.ipynb)|
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ntiltmann/opal-mc-ml/blob/main/opal_mc_ml.ipynb)|[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ntiltmann/opal-mc-ml/blob/main/opal_mc_ml_minimal.ipynb)
+[WWU JupyterHub](https://jupyterhub.wwu.de/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fntiltmann%2Fopal-mc-ml&urlpath=lab%2Ftree%2Fopal-mc-ml%2Fopal_mc_ml.ipynb&branch=main)|[WWU JupyterHub](https://jupyterhub.wwu.de/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fntiltmann%2Fopal-mc-ml&urlpath=lab%2Ftree%2Fopal-mc-ml%2Fopal_mc_ml_minimal.ipynb&branch=main)
+
 
 ## Technische Details
 Die Bilder sind vorsortiert. Der Datensatz besteht nur noch aus Ereignisbildern in der Frontalansicht. Die Anzeigen des Event-Displays sind abgeschnitten um sicherzustellen, dass diese Bilddetails nicht mitgelernt werden. Außerdem sind alle Logos und Legenden abgeschnitten. Die Bilder sind auf eine Größe von 200x200px verkleinert, um Ressourcen zu sparen. Der Datensatz umfasst ca. 620 Ereignisse. Diese Ereignisse verteilen sich so auf die Zerfallskanäle, wie man dies messen würde (ca. 88% hadronisch, jeweils ca. 4% Elektron, Myon, Tau, siehe auch [hier](https://pdg.lbl.gov/2020/listings/rpp2020-list-z-boson.pdf)). Sowohl der Zuschnitt der Bilder, als auch die Einordnung in die Kategorien ist nicht perfekt, aber ausreichend genug zum trainieren. Die Bilder sind in der Datei [all-events.zip](all-events.zip) gepackt und müssen in den Ordner des Jupyter Notebooks entpackt werden. Bei Ausführen des Notebooks geschieht dies aber auch automatisch.
