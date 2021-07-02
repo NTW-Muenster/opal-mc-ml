@@ -29,7 +29,7 @@ def check_files():
         print("Images were found")
     else:
         print("Loading images...", end="")
-        os.system("wget -O all-events.zip \"https://uni-muenster.sciebo.de/s/GHZpTpV0q8LYQjM/download\"")
+        os.system("wget -O all-events.zip \"https://raw.githubusercontent.com/ntiltmann/opal-mc-ml/main/all-events.zip\"")
         print(" done!")
         print("Unpacking images...", end="")
         os.system("unzip all-events.zip")
@@ -39,7 +39,7 @@ def check_files():
         print("Category list was found")
     else:    
         print("Loading category list...", end="")
-        os.system("wget -O all_events.csv \"https://uni-muenster.sciebo.de/s/cvZBNrEDIf3MMwn/download\"")
+        os.system("wget -O all_events.csv \"https://raw.githubusercontent.com/ntiltmann/opal-mc-ml/main/all_events.csv\"")
         print(" done!")
 
 
