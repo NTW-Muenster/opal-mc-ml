@@ -1,6 +1,6 @@
 # How to Masterclass
 
-Diese Anleitung soll eine Übersicht geben, wie eine Masterclass mit Daten des OPAK Experimentes und maschinellem Lernen aussehen **kann**. An vielen Stellen lassen sich Dinge auch anders oder besser gestalten. Die Präsentation orientiert sich an dieser Übersicht.
+Diese Anleitung soll eine Übersicht geben, wie eine Masterclass mit Daten des OPAL Experimentes und maschinellem Lernen aussehen **kann**. An vielen Stellen lassen sich Dinge auch anders oder besser gestalten. Die Präsentation orientiert sich an dieser Übersicht.
 
 ## Einführung in das Standardmodell
 
