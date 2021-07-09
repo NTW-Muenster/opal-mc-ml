@@ -7,6 +7,8 @@ Diese Masterclass basiert auf einer [anderen Masterclass](http://www.hep.manches
 
 Die Eingabe besteht dabei nur aus den (leicht vorverarbeiteten) Ereignisbildern der ursprünglichen Masterclass. Aktuell können nur Bilder in Frontalaufnahme verarbeitet werden. Dies sind ca. 620 der insgesamt 1000 Ereignisbilder. Darüber hinaus wird eine Liste mit den Dateinamen und der manuell ermittelten Kategorie geladen um das Training und die anschließende Bewertung des Modells zu ermöglichen.
 
+[Hier](howto_masterclass.md) gibt es eine Übersicht über Themen, die angesprochen werden können. Auf der Übersicht basierend existiert eine Präsentation.
+
 ## Programm ausführen
 Das Programm besteht immer aus einem IPython-Notebook und einer Python-Datei. Das volle Programm ist in der Datei [opal_mc_ml.ipynb](opal_mc_ml.ipynb) vorhanden. Das Notebook [opal_mc_ml_minimal.ipynb](opal_mc_ml_minimal.ipynb) importiert nur alle Hilfsfunktionen aus der Python-Datei. Der Rest kann dann von Hand erarbeitet werden
 
