@@ -442,6 +442,39 @@ def show_false_predictions(true_eventlist, predicted_eventlist, count=5):
             print("was predicted as", predicted_eventlist[index].category, " but is", true_eventlist[index].category, "\n")
         index+=1
 
+def filter_by_category(eventlist, category):
+    """This function creates a new eventlist, where only events of one category appear.
+
+    Args:
+        eventlist (list): Input eventlist
+        category ([type]): Category to be filtered for, given as "q", "e", "m" or "t".
+
+    Returns:
+        list: Filtered eventlist
+    """
+    outlist=[]
+    for event in eventlist:
+        if event.category == category:
+            outlist.append(event)
+    return outlist
+
+def show_only_one_category(eventlist, category, count=5):
+    """Show all (or a few) events of one category in an eventlist.
+
+    Args:
+        eventlist (list): Input eventlist
+        category ([type]): Category given as letter ("q", "e", "m" or "t")
+        count (int, optional): Number of events to be shown. Defaults to 5.
+    """
+    filtered_eventlist = filter_by_category(eventlist, category)
+    print("Total of", len(filtered_eventlist), "events in category", category)
+    if len(filtered_eventlist) > count:
+        print("showing first", count, "...")
+        stop=count
+    else:
+        stop=len(filtered_eventlist)
+    for i in range(stop):
+        filtered_eventlist[i].show_image(show_category=True)
 
 
 class MLModel:
