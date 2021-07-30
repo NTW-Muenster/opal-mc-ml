@@ -313,6 +313,7 @@ def show_confusion_matrix(true_eventlist, predicted_eventlist):
     ax_ = ax
     colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
     plt.show()
+    print("Total prediction accuracy: {:.4f}".format(np.trace(cmat)/np.sum(cmat)))
 
 def plot_metrics(historylist, show_accuracy=True, show_loss=False):
     """Shows the learning curve.
