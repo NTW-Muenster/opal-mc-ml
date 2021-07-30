@@ -44,10 +44,10 @@ def check_files():
 
 
 class Event(object):
-    """An event consists of a filename, an image and a category.
+    """An event consists of a filename, an image and a category. Additionally, probabilities from predictions can be stored.
     """    
 
-    def __init__(self, filename, image, category):
+    def __init__(self, filename, image, category, probabilities=None):
         """Constructor for an event-object.
 
         Args:
@@ -58,20 +58,23 @@ class Event(object):
         self.filename = filename
         self.image = image
         self.category = category
+        self.probabilities = probabilities
 
-    def show_image(self, show_category=False):
+    def show_image(self, show_category=False, show_probability=False):
         """Displays the image of the event.
 
         Args:
             show_category (bool, optional): Sets if the category will be shown below the image. Defaults to False.
+            show_probability (bool, optional): Shows the probabilites of classification in case there are any. Defaults to False.
         """        
-        show_image(self, show_category)
+        show_image(self, show_category, show_probability=show_probability)
 
-def show_image(event, show_category=False):  
+def show_image(event, show_category=False, show_probability=False):  
     """Displays the image of the event.
 
     Args:
         show_category (bool, optional): Sets if the category will be shown below the image. Defaults to False.
+        show_probability (bool, optional): Shows the probabilites of classification in case there are any. Defaults to False.
     """        
     plt.imshow(event.image, cmap=plt.cm.binary)
     plt.show()
@@ -79,6 +82,16 @@ def show_image(event, show_category=False):
         print("Name:", event.filename, "\t Category:", event.category)
     else:
         print("Name:", event.filename)
+    if show_probability:
+        if event.probabilities is None:
+            print("The event is fixed. There is no probability.")
+        else:
+            print("Probabilities for event being in class:")
+            print("q\t{:.2f}%".format(event.probabilities[0]*100))
+            print("e\t{:.2f}%".format(event.probabilities[1]*100))
+            print("m\t{:.2f}%".format(event.probabilities[2]*100))
+            print("t\t{:.2f}%".format(event.probabilities[3]*100))
+
 
 def filenames_from_eventlist(eventlist):
     """Generates a list of filenames from a list of events.
@@ -414,13 +427,14 @@ def split_events_random(eventlist, fraction_first_block):
     """    
     return train_test_split(eventlist, test_size=1-fraction_first_block)
 
-def show_false_predictions(true_eventlist, predicted_eventlist, count=5):
+def show_false_predictions(true_eventlist, predicted_eventlist, count=5, show_probability=True):
     """Generates an overview with all false predicted events.
 
     Args:
         true_eventlist (list): True events
         predicted_eventlist (list): Predicted events
         count (number, optional): Number of events to be shown. Defaults to 5.
+        show_probability (boolean, optional): Sets if classification probabilities are shown. Defaults to True.
     """    
     true = np.array(categories_from_eventlist(true_eventlist, numbers=True))
     predicted = np.array(categories_from_eventlist(predicted_eventlist, numbers=True))
@@ -438,8 +452,8 @@ def show_false_predictions(true_eventlist, predicted_eventlist, count=5):
     while found < stop:
         if true[index]!=predicted[index]:
             found+=1
-            true_eventlist[index].show_image()
-            print("was predicted as", predicted_eventlist[index].category, " but is", true_eventlist[index].category, "\n")
+            predicted_eventlist[index].show_image(show_probability=show_probability)
+            print("Was predicted as", predicted_eventlist[index].category, "but is", true_eventlist[index].category, "\n")
         index+=1
 
 def filter_by_category(eventlist, category):
@@ -663,7 +677,7 @@ class MLModel:
         max = np.argmax(score, axis=1)
         prediction_eventlist=[]
         for i in range(len(max)):
-            prediction_eventlist.append(Event(test_eventlist[i].filename, test_eventlist[i].image, number_to_sign(max[i])))
+            prediction_eventlist.append(Event(test_eventlist[i].filename, test_eventlist[i].image, number_to_sign(max[i]), score.numpy()[i]))
         return prediction_eventlist
 
 # ########uncomment for debugging in notebook
