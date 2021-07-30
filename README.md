@@ -23,7 +23,7 @@ Name|[Anaconda](https://www.anaconda.com/)|[mybinder.org](https://mybinder.org)|
 |tensorflow|:x:|:heavy_check_mark:|:heavy_check_mark:|:heavy_check_mark:
 
 ### Anaconda
-Auf lokalen [Anaconda](https://www.anaconda.com/products/individual#Downloads)-Installationen kann das Notebook ohne Probleme ausgeführt werden. Dazu muss in der *Anaconda Prompt* der Befehl `pip install tensorflow` ausgeführt werden, um TensorFlow zu installieren.
+Auf lokalen [Anaconda](https://www.anaconda.com/products/individual#Downloads)-Installationen kann das Notebook ohne Probleme ausgeführt werden. Dazu muss in der *Anaconda Prompt* der Befehl `pip install tensorflow` ausgeführt werden, um TensorFlow zu installieren. Der automatische Dateidownload funktioniert bislang nicht, wenn Windows als Betriebssystem verwendet wird. In diesem Fall müssen die Dateien einzeln heruntergeladen werden. Alternativ kann der gesamte Inhalt dieses Repositories heruntergeladen werden. Alle benötigten Dateien sind enthalten. Lediglich [all-events.zip](all-events.zip) muss manuell entpackt werden.
 
 ### mybinder.org
 
