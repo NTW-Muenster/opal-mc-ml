@@ -301,30 +301,36 @@ def show_confusion_matrix(true_eventlist, predicted_eventlist):
     colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
     plt.show()
 
-def plot_metrics(history, show_accuracy=True, show_loss=False):
+def plot_metrics(historylist, show_accuracy=True, show_loss=False):
     """Shows the learning curve.
 
     Args:
-        history (TF object): Learning history of the model
+        historylist (list of TF objects): List of learning histories of the model
         show_accuracy (bool, optional): Shows the accuracy. Defaults to True.
         show_loss (bool, optional): Shows the loss. Defaults to False.
     """       
     if show_loss:
-        plt.plot(np.array(history.epoch)+1, history.history['loss'], color="C0", label='Training')
-        plt.plot(np.array(history.epoch)+1, history.history['val_loss'], color="C0", linestyle="--", label='Validation')
+        prev_epochs=0
+        for run, history in enumerate(historylist):
+            plt.plot(np.array(history.epoch)+1+prev_epochs, history.history['loss'], color="C"+str(run%10), label='Training, Run ' + str(run+1), marker="^")
+            plt.plot(np.array(history.epoch)+1+prev_epochs, history.history['val_loss'], color="C"+str(run%10), linestyle="--", label='Validation, Run ' + str(run+1), marker=".")
+            prev_epochs+=np.max(history.epoch)+1
         plt.xlabel("Epoch")
         plt.ylabel("Loss")
         plt.ylim([0, plt.ylim()[1]])
-        plt.legend()
+        plt.legend(loc=1)
         plt.show()
     
     if show_accuracy:
-        plt.plot(np.array(history.epoch)+1, history.history['accuracy'], color="C0", label='Training')
-        plt.plot(np.array(history.epoch)+1, history.history['val_accuracy'], color="C0", linestyle="--", label='Validation')
+        prev_epochs=0
+        for run, history in enumerate(historylist):
+            plt.plot(np.array(history.epoch)+1+prev_epochs, history.history['accuracy'], color="C"+str(run%10), label='Training, Run ' + str(run+1), marker="^")
+            plt.plot(np.array(history.epoch)+1+prev_epochs, history.history['val_accuracy'], color="C"+str(run%10), linestyle="--", label='Validation, Run ' + str(run+1), marker=".")
+            prev_epochs+=np.max(history.epoch)+1
         plt.xlabel("Epoch")
         plt.ylabel("Accuracy")
         plt.ylim([0,1])
-        plt.legend()
+        plt.legend(loc=4)
         plt.show()
 
 
@@ -445,7 +451,7 @@ class MLModel:
         """Constructor.
         """        
         self.model=None
-        self.history=None
+        self.historylist=None
         self.training=None
         self.validation=None
         self.train_time=None
@@ -578,7 +584,11 @@ class MLModel:
         vali_npcat=np.array(categories_from_eventlist(self.validation, numbers=True))
         vali_nppic=np.array(images_from_eventlist(self.validation))
  
-        self.history = self.model.fit(train_nppic, train_npcat, epochs=count_epochs, validation_data=(vali_nppic, vali_npcat))
+        history_temp = self.model.fit(train_nppic, train_npcat, epochs=count_epochs, validation_data=(vali_nppic, vali_npcat))
+        if self.historylist is None:
+            self.historylist = []
+        self.historylist.append(history_temp)
+
         train_end=datetime.datetime.now()
         self.train_time=train_end
         if show_time:
@@ -588,7 +598,7 @@ class MLModel:
         """Shows the learning curve.
 
             Args:
-                history (TF object): Learning history of the model
+                historylist (List of TF objects): List of learning histories of the model
                 show_accuracy (bool, optional): Shows the accuracy. Defaults to True.
                 show_loss (bool, optional): Shows the loss. Defaults to False.
 
@@ -598,7 +608,7 @@ class MLModel:
 
         if self.train_time is None:
             raise RuntimeError("Model was not trained")
-        plot_metrics(self.history, **args)
+        plot_metrics(self.historylist, **args)
 
     def predict(self, test_eventlist):
         """Predict categories of given events using the learned model. Categories of input data will be ignored and overwritten with the prediction.
