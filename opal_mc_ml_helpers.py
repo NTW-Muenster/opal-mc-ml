@@ -45,15 +45,21 @@ def check_files():
 
 class Event(object):
     """An event consists of a filename, an image and a category. Additionally, probabilities from predictions can be stored.
+
+    Attributes:
+        filename (text): Filename of the event.
+        image (numpy array): Image of the event as numpy array.
+        category (text or number): Category as 1, 2, 3, 4 or q, e, m, t.
+        probabilities (list of numbers, optional): Prediction probabilities for the classes "q", "e", "m" and "t". Defaults to None.
     """    
 
     def __init__(self, filename, image, category, probabilities=None):
         """Constructor for an event-object.
 
         Args:
-            filename (text): Filename of the event
-            image (numpy array): Image of the event as numpy array
-            category (text or number): Category as 1, 2, 3, 4 or q, e, m, t
+            filename (text): Filename of the event.
+            image (numpy array): Image of the event as numpy array.
+            category (text or number): Category as 1, 2, 3, 4 or q, e, m, t.
         """        
         self.filename = filename
         self.image = image
@@ -97,10 +103,10 @@ def filenames_from_eventlist(eventlist):
     """Generates a list of filenames from a list of events.
 
     Args:
-        eventlist (list of events): Input list
+        eventlist (list of events): Input list.
 
     Returns:
-        List: List of filenames
+        List: List of filenames.
     """    
     out=[]
     for event in eventlist:
@@ -111,10 +117,12 @@ def images_from_eventlist(eventlist):
     """Generates a list of images from a list of events.
 
     Args:
-        eventlist (list of events): Input list
+        eventlist (list of events): Input list.
 
     Returns:
-        List: List of images. Warning: This is not a numpy array yet!
+        List: List of images. 
+
+    Warning: This is a list of 3D numpy arrays and not a 4D numpy array yet!
     """  
     out=[]  
     for event in eventlist:
@@ -125,7 +133,7 @@ def categories_from_eventlist(eventlist, numbers=False):
     """Generates a list of categories from a list of events.
 
     Args:
-        eventlist (list of events): Input list
+        eventlist (list of events): Input list.
         numbers (bool, optional): Sets if the categories are given as numbers (True) or letters (False). Defaults to False.
 
     Returns:
@@ -164,8 +172,8 @@ def show_overview(names, *arrays, show_theory=True):
     """Shows an overview of all visible branching ratios.
 
     Args:
-        names (liste of strings): List with column headings
-        *arrays (list of events): List of events. Separate by comma when using multiple lists
+        names (liste of strings): List with column headings.
+        *arrays (list of events): One or multiple list of events. Separate by comma when using multiple lists.
         show_theory (bool, optional): Sets if the theoretical branching ratio is shown. Defaults to True.
     """    
     def tts(value):
@@ -222,16 +230,16 @@ def show_overview(names, *arrays, show_theory=True):
 
 
 def sign_to_number(sign):
-    """Converts decay category signs to numbers.
+    """Converts decay categories signs to numbers.
 
     Args:
-        sign (letter): Input category
+        sign (letter): Input category.
 
     Raises:
         RuntimeError: Letter does not match any category.
 
     Returns:
-        Number: Output category
+        Number: Output category.
     """    
     if sign=="q":
         return 0
@@ -245,16 +253,16 @@ def sign_to_number(sign):
         raise RuntimeError("\"" + str(sign) + "\" is not a valid identifier for decay classes")
 
 def number_to_sign(number):
-    """Converts decay category numbers to signs.
+    """Converts decay categories numbers to signs.
 
     Args:
-        number (number): Input category
+        number (number): Input category.
 
     Raises:
-        RuntimeError: Number does not match any category
+        RuntimeError: Number does not match any category.
 
     Returns:
-        Letter: Output category
+        Letter: Output category.
     """    
     if number==0:
         return "q"
@@ -272,8 +280,8 @@ def show_confusion_matrix(true_eventlist, predicted_eventlist):
     """Shows confusion matrix.
 
     Args:
-        true_eventlist (list): List of events with true categories
-        predicted_eventlist (list): List of events with predicted categories
+        true_eventlist (list): List of events with true categories.
+        predicted_eventlist (list): List of events with predicted categories.
     """  
 
     # also see https://github.com/scikit-learn/scikit-learn/blob/95119c13af77c76e150b753485c662b7c52a41a2/sklearn/metrics/_plot/confusion_matrix.py#L12
@@ -316,10 +324,10 @@ def show_confusion_matrix(true_eventlist, predicted_eventlist):
     print("Total prediction accuracy: {:.4f}".format(np.trace(cmat)/np.sum(cmat)))
 
 def plot_metrics(historylist, show_accuracy=True, show_loss=False):
-    """Shows the learning curve.
+    """Shows the learning curve with respect to accuracy or loss. By default, only the accuracy learning curve is shown.
 
     Args:
-        historylist (list of TF objects): List of learning histories of the model
+        historylist (list of TF history objects): List of learning histories of the model.
         show_accuracy (bool, optional): Shows the accuracy. Defaults to True.
         show_loss (bool, optional): Shows the loss. Defaults to False.
     """       
@@ -353,7 +361,7 @@ def load_events():
     """Loads all images from the folder and combines them with category information from .csv file.
 
     Returns:
-        List: List of events
+        List: List of events.
     """    
     df = pd.read_csv(cat_filepath, delimiter=";", header=None)
     eventlist=[]
@@ -375,14 +383,13 @@ def augment_events(eventlist, factor):
 
     Args:
         eventlist (list): List of events
-        factor (number or list): If factor is a number, all decay channels are augmented by this factor. If factor is a list of 
-        four entries, the decay channels are augmented according to the order "q, e, m, t".
+        factor (number or list): If factor is a number, all decay channels are augmented by this factor. If factor is a list of four entries, the decay channels are augmented according to the order "q, e, m, t".
 
     Raises:
         ValueError: Factor has unexpected structure.
 
     Returns:
-        List: List of events
+        List: List of events.
     """    
     if hasattr(factor, "__len__") and (not isinstance(factor, str)):
         if len(factor) == 4:
@@ -419,12 +426,13 @@ def split_events_random(eventlist, fraction_first_block):
     """Splits a list into two lists randomly.
 
     Args:
-        eventlist (list): List of events
-        fraction_first_block (number): Fraction of items in the first new list
+        eventlist (list): List of events.
+        fraction_first_block (number): Fraction of items in the first new list.
 
     Returns:
-        List: List of events (first block)
-        List: List of events (second block)
+        tuple: tuple containing:
+            List: List of events (first block),
+            List: List of events (second block)
     """    
     return train_test_split(eventlist, test_size=1-fraction_first_block)
 
@@ -432,8 +440,8 @@ def show_false_predictions(true_eventlist, predicted_eventlist, count=5, show_pr
     """Generates an overview with all false predicted events.
 
     Args:
-        true_eventlist (list): True events
-        predicted_eventlist (list): Predicted events
+        true_eventlist (list): True events.
+        predicted_eventlist (list): Predicted events.
         count (number, optional): Number of events to be shown. Defaults to 5.
         show_probability (boolean, optional): Sets if classification probabilities are shown. Defaults to True.
     """    
@@ -461,11 +469,11 @@ def filter_by_category(eventlist, category):
     """This function creates a new eventlist, where only events of one category appear.
 
     Args:
-        eventlist (list): Input eventlist
+        eventlist (list): Input eventlist.
         category ([type]): Category to be filtered for, given as "q", "e", "m" or "t".
 
     Returns:
-        list: Filtered eventlist
+        list: Filtered eventlist.
     """
     outlist=[]
     for event in eventlist:
@@ -477,8 +485,8 @@ def show_only_one_category(eventlist, category, count=5):
     """Show all (or a few) events of one category in an eventlist.
 
     Args:
-        eventlist (list): Input eventlist
-        category ([type]): Category given as letter ("q", "e", "m" or "t")
+        eventlist (list): Input eventlist.
+        category (string): Category given as letter ("q", "e", "m" or "t").
         count (int, optional): Number of events to be shown. Defaults to 5.
     """
     filtered_eventlist = filter_by_category(eventlist, category)
@@ -493,7 +501,14 @@ def show_only_one_category(eventlist, category, count=5):
 
 
 class MLModel:
-    """This class is a wrapper for the machine learning model. It simplifies the use of Tensorflow
+    """This class is a wrapper for the machine learning model. It simplifies the use of Tensorflow.
+    
+    Attributes:
+        model (tf.keras.models): Underlying tensorflow model.
+        historylist (list of tf.keras.callbacks): List of all training outputs.
+        training (list of Events): List containing the training data as Event objects.
+        validation (list of Events): List containing the validation data as Event objects.
+        train_time (datetime.timedelta): Stores the summed duration of the training operation.
     """    
     def __init__(self):
         """Constructor.
@@ -533,7 +548,7 @@ class MLModel:
             self.model.add(layers.Conv2D(count_filter, size_filter, activation=activation))
 
     def new_layer_pooling(self, size_filter=(3, 3)):
-        """Adds a pooling layer
+        """Adds a pooling layer.
 
         Args:
             size_filter (tuple with two numbers, optional): Defines the size of the neighboorhood to be pooled. Defaults to (3, 3).
@@ -584,7 +599,7 @@ class MLModel:
         """Shows an overview of all model layers.
 
         Raises:
-            RuntimeError: No model has been loaded or created
+            RuntimeError: No model has been loaded or created.
         """        
         if self.model is None:
             raise RuntimeError("No model has been loaded or created")
@@ -594,7 +609,7 @@ class MLModel:
         """Loads the eventlist for training.
 
         Args:
-            training_eventlist (list): Eventlist with training events
+            training_eventlist (list): Eventlist with training events.
         """        
         self.training = training_eventlist   
         
@@ -602,7 +617,7 @@ class MLModel:
         """Loads the eventlist for validation.
 
         Args:
-            validation_eventlist (list): Eventlist with validation events
+            validation_eventlist (list): Eventlist with validation events.
         """        
         self.validation = validation_eventlist
 
@@ -611,10 +626,10 @@ class MLModel:
 
         Args:
             show_time (bool, optional): Defines if the total time is shown after training. Defaults to True.
-            counts_epochs (number, optional): Defines how many iterations over all training and validation data should be performed
+            counts_epochs (number, optional): Defines how many iterations over all training and validation data should be performed.
 
         Raises:
-            RuntimeError: No model or no data
+            RuntimeError: No model or no data.
         """        
         if self.model is None:
             raise RuntimeError("No model loaded or created")
@@ -625,8 +640,7 @@ class MLModel:
 
         self.model.compile(optimizer='adam', loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True), metrics=['accuracy'])
         train_start=datetime.datetime.now()
-        if show_time:
-            print("Starting training...")
+        print("Starting training...")
         train_npcat=np.array(categories_from_eventlist(self.training, numbers=True))
         train_nppic=np.array(images_from_eventlist(self.training))
         vali_npcat=np.array(categories_from_eventlist(self.validation, numbers=True))
@@ -638,7 +652,10 @@ class MLModel:
         self.historylist.append(history_temp)
 
         train_end=datetime.datetime.now()
-        self.train_time=train_end
+        if self.train_time is None:
+            self.train_time=train_end-train_start
+        else:
+            self.train_time=train_end-train_start+self.train_time
         if show_time:
             print("Training finished, took", train_end-train_start)
 
@@ -646,12 +663,12 @@ class MLModel:
         """Shows the learning curve.
 
             Args:
-                historylist (List of TF objects): List of learning histories of the model
+                historylist (List of TF objects): List of learning histories of the model.
                 show_accuracy (bool, optional): Shows the accuracy. Defaults to True.
                 show_loss (bool, optional): Shows the loss. Defaults to False.
 
             Raises:
-                RuntimeError: Model not trained
+                RuntimeError: Model not trained.
         """    
 
         if self.train_time is None:
@@ -665,10 +682,10 @@ class MLModel:
             test_eventlist (list): List of events for testing.
 
         Raises:
-            RuntimeError: Model not trained
+            RuntimeError: Model not trained.
 
         Returns:
-            List: Eventlist with predictions
+            List: Eventlist with predictions.
         """        
 
         if self.train_time is None:
