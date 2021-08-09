@@ -1,8 +1,8 @@
-numpy=1.18.5
-matplotlib=3.3.2
-pandas=1.1.3
+numpy==1.18.5
+matplotlib==3.3.2
+pandas==1.1.3
 nbresuse[resources]
 jupyter_contrib_nbextensions
-scikit-learn=0.23.2
-scikit-image=0.17.2
-tensorflow=2.3.0
+scikit-learn==0.23.2
+scikit-image==0.17.2
+tensorflow==2.3.0
