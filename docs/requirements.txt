@@ -1,10 +1,2 @@
-sphinx
-myst-parser
-numpy
-matplotlib
-pandas
-nbresuse[resources]
-jupyter_contrib_nbextensions
-scikit-learn
-scikit-image
-tensorflow
+sphinx=4.0.2
+myst-parser=0.15.1
