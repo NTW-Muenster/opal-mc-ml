@@ -1,13 +1,18 @@
 # Masterclass zum OPAL-Experiment mit maschinellem Lernen
+[![Documentation Status](https://readthedocs.org/projects/opal-mc-ml/badge/?version=latest)](https://opal-mc-ml.readthedocs.io/en/latest/?badge=latest)
+
+## Einführung
 Diese Masterclass basiert auf Daten des OPAL-Experiments am, mittlerweile demontierten, Large Electron-Positron Collider (LEP). Die einzelnen Ereignisse sind Kollisionen zwischen Elektronen und Positronen.
 
 ![Beispielererignis](https://www.hep.manchester.ac.uk/u/masterclass/masterclass2019/events/challenge2/events/x7626_14982.gif "Beispielereignis")
 
-Diese Masterclass basiert auf einer [anderen Masterclass](http://www.hep.manchester.ac.uk/u/masterclass/masterclass2019/events/) ([deutsche Version](https://physicsmasterclasses.org/exercises/manchester/de/home.html)). Ursprünglich wurden die Ereignisse in Gruppen aufgeteilt und "per Hand" ausgewertet. Hier wird ein anderer Ansatz gewählt. Nur ein kleiner Teil der Gesamtmenge wird manuell ausgewertet. Mit diesen Daten wird ein [Convolutional Neural Network](https://de.wikipedia.org/wiki/Convolutional_Neural_Network) trainiert, welches dann selbstständig die restlichen Events klassifizieren kann.
+Diese Masterclass basiert auf einer [anderen Masterclass](http://www.hep.man.ac.uk/u/events/) ([deutsche Version](https://physicsmasterclasses.org/exercises/manchester/de/home.html)). Ursprünglich wurden die Ereignisse in Gruppen aufgeteilt und "per Hand" ausgewertet. Hier wird ein anderer Ansatz gewählt. Nur ein kleiner Teil der Gesamtmenge wird manuell ausgewertet. Mit diesen Daten wird ein [Convolutional Neural Network](https://de.wikipedia.org/wiki/Convolutional_Neural_Network) trainiert, welches dann selbstständig die restlichen Events klassifizieren kann.
 
 Die Eingabe besteht dabei nur aus den (leicht vorverarbeiteten) Ereignisbildern der ursprünglichen Masterclass. Aktuell können nur Bilder in Frontalaufnahme verarbeitet werden. Dies sind ca. 620 der insgesamt 1000 Ereignisbilder. Darüber hinaus wird eine Liste mit den Dateinamen und der manuell ermittelten Kategorie geladen um das Training und die anschließende Bewertung des Modells zu ermöglichen.
 
-[Hier](howto_masterclass.md) gibt es eine Übersicht über Themen, die angesprochen werden können. Auf der Übersicht basierend existiert eine Präsentation.
+[Hier](howto_masterclass_de.md) gibt es eine Übersicht über Themen, die angesprochen werden können. Auf der Übersicht basierend existiert eine Präsentation.
+
+Die Dokumentation der verwendeten Klassen und Funktionen kann hier eingesehen werden: [Read the Docs](https://opal-mc-ml.readthedocs.io/en/latest/) (englisch)
 
 ## Programm ausführen
 Das Programm besteht immer aus einem IPython-Notebook und einer Python-Datei. Das volle Programm ist in der Datei [opal_mc_ml.ipynb](opal_mc_ml.ipynb) vorhanden. Das Notebook [opal_mc_ml_minimal.ipynb](opal_mc_ml_minimal.ipynb) importiert nur alle Hilfsfunktionen aus der Python-Datei. Der Rest kann dann von Hand erarbeitet werden
@@ -70,3 +75,11 @@ Das Training selbst wird von einem [Convolutional Neural Network](https://de.wik
 Insgesamt werden also 204.100 Parameter trainiert. Als Aktivierungsfunktion wir [ReLU](https://de.wikipedia.org/wiki/Rectifier_(neuronale_Netzwerke)) genutzt. Die Werte der vier Ausgabeneuronen werden mit [Softmax](https://de.wikipedia.org/wiki/Softmax-Funktion) normalisiert. Die Kategorie mit dem größten Wert wird als Vorhersage verwendet.
 
 Die verwendete Struktur und Hyperparameters des Modells orientieren sich grob an anderen Beispielen für Bilderkennung und Klassifikation und stellen sich als brauchbar heraus. Es ist jedoch möglich, dass die Vorhersage sich mit weiterer Optimierung der Hyperparameter verbessert. Neben dem Standardmodell von oben können auch andere Modelle verwendet werden.
+
+## Acknowledgements
+
+The OPAL Machine Learning Masterclass is widely based on the [original OPAL Masterclass](http://www.hep.man.ac.uk/u/events/) from 1997 by Terry Wyatt, Pezouna Pieri, Akram Khan, David Ward, Nigel Watson and Andrew McNab. 
+
+The machine learning "upgrade" is based on an idea by Christian Klein-Bösing. This Masterclass is written by Nicolas Tiltmann.
+
+Feel free to report any issues and ideas on this GitHub page.
