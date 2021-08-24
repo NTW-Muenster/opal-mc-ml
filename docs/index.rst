@@ -37,6 +37,7 @@ Further Functions
 .. autofunction:: sign_to_number
 .. autofunction:: number_to_sign
 .. autofunction:: show_confusion_matrix
+.. autofunction:: calculate_prediction_accuracy
 .. autofunction:: plot_metrics
 .. autofunction:: load_events
 .. autofunction:: augment_events
