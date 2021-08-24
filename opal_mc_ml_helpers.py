@@ -289,7 +289,7 @@ def show_confusion_matrix(true_eventlist, predicted_eventlist):
     predicted=np.array(categories_from_eventlist(predicted_eventlist, numbers=True))
     
     import matplotlib.colors as colors
-    cmat=tf.math.confusion_matrix(true, predicted, num_classes=None, weights=None, dtype=tf.dtypes.int32, name=None).numpy()
+    cmat=tf.math.confusion_matrix(true, predicted).numpy()
     fig, ax = plt.subplots()
 
     cm = cmat
@@ -321,7 +321,19 @@ def show_confusion_matrix(true_eventlist, predicted_eventlist):
     ax_ = ax
     colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
     plt.show()
-    print("Total prediction accuracy: {:.4f}".format(np.trace(cmat)/np.sum(cmat)))
+    print("Total prediction accuracy: {:.4f}".format(calculate_prediction_accuracy(true_eventlist, predicted_eventlist)))
+
+def calculate_prediction_accuracy(true_eventlist, predicted_eventlist):
+    """Calculates the prediction accuracy for given eventlists of true and predicted events.
+
+    Args:
+        true_eventlist (list): List of events with true categories.
+        predicted_eventlist (list): List of events with predicted categories.
+    """
+    true=np.array(categories_from_eventlist(true_eventlist, numbers=True))
+    predicted=np.array(categories_from_eventlist(predicted_eventlist, numbers=True))
+    cmat=tf.math.confusion_matrix(true, predicted).numpy()
+    return np.trace(cmat)/np.sum(cmat)
 
 def plot_metrics(historylist, show_accuracy=True, show_loss=False):
     """Shows the learning curve with respect to accuracy or loss. By default, only the accuracy learning curve is shown.
