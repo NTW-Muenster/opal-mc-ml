@@ -329,6 +329,9 @@ def calculate_prediction_accuracy(true_eventlist, predicted_eventlist):
     Args:
         true_eventlist (list): List of events with true categories.
         predicted_eventlist (list): List of events with predicted categories.
+
+    Returns:
+        number: Prediction accuracy.
     """
     true=np.array(categories_from_eventlist(true_eventlist, numbers=True))
     predicted=np.array(categories_from_eventlist(predicted_eventlist, numbers=True))
