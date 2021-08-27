@@ -672,7 +672,7 @@ class MLModel:
         else:
             self.train_time=train_end-train_start+self.train_time
         if show_time:
-            print("Training finished, took", train_end-train_start)
+            print("Training finished, took", self.train_time)
 
     def show_learning_curve(self, **args):        
         """Shows the learning curve.
