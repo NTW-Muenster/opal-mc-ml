@@ -18,28 +18,28 @@ import tensorflow as tf
 from tensorflow.keras import layers, models
 
 # Paths to the category file and the images.
-cat_filepath = "all_events.csv"
-picture_filepath = "all-events/"
+cat_filepath = "events_list.csv"
+picture_filepath = "events-images/"
 
 def check_files():
-    """Checks if category file in images are at the specified path. If not, they will be downloaded
+    """Checks if category file in images are at the specified path. If not, they will be downloaded.
     """    
     import os
-    if "all-events" in os.listdir():
+    if "events-images" in os.listdir():
         print("Images were found")
     else:
-        print("Loading images...", end="")
-        os.system("wget -O all-events.zip \"https://raw.githubusercontent.com/ntiltmann/opal-mc-ml/main/all-events.zip\"")
+        print("Downloading images...", end="")
+        os.system("wget -O events-images.zip \"https://raw.githubusercontent.com/ntiltmann/opal-mc-ml/main/events-images.zip\"")
         print(" done!")
         print("Unpacking images...", end="")
-        os.system("unzip all-events.zip")
+        os.system("unzip events-images.zip")
         print(" done!")
 
-    if "all_events.csv" in os.listdir():
+    if "events_list.csv" in os.listdir():
         print("Category list was found")
     else:    
-        print("Loading category list...", end="")
-        os.system("wget -O all_events.csv \"https://raw.githubusercontent.com/ntiltmann/opal-mc-ml/main/all_events.csv\"")
+        print("Downloading category list...", end="")
+        os.system("wget -O events_list.csv \"https://raw.githubusercontent.com/ntiltmann/opal-mc-ml/main/events_list.csv\"")
         print(" done!")
 
 
