@@ -14,7 +14,7 @@
 
 Introduction
 ==============
-Welcome to the documentation of the OPAL Masterclass with machine learning. This is mainly an overview of all classes and functions used in the masterclass. The code and further documentation can be found on `GitHub <https://github.com/ntiltmann/opal-mc-ml>`_.
+Welcome to the documentation of the OPAL Masterclass with machine learning. This is mainly an overview of all classes and functions used in the masterclass. The code and further documentation can be found on `GitHub <https://github.com/NTW-Muenster/opal-mc-ml>`_.
 
 Class Event
 ======================
