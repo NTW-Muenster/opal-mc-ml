@@ -46,9 +46,9 @@ Im JupyterHub der [WWU](https://uni-muenster.de) muss scikit-image für jeden Us
 ### Links
 |Full|Minimal|
 |---|---|
-|[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ntiltmann/opal-mc-ml/HEAD?filepath=opal_mc_ml.ipynb)|[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ntiltmann/opal-mc-ml/HEAD?filepath=opal_mc_ml_minimal.ipynb)|
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ntiltmann/opal-mc-ml/blob/main/opal_mc_ml.ipynb)|[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ntiltmann/opal-mc-ml/blob/main/opal_mc_ml_minimal.ipynb)
-[WWU JupyterHub](https://jupyterhub.wwu.de/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fntiltmann%2Fopal-mc-ml&urlpath=lab%2Ftree%2Fopal-mc-ml%2Fopal_mc_ml.ipynb&branch=main)|[WWU JupyterHub](https://jupyterhub.wwu.de/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2Fntiltmann%2Fopal-mc-ml&urlpath=lab%2Ftree%2Fopal-mc-ml%2Fopal_mc_ml_minimal.ipynb&branch=main)
+|[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/NTW-Muenster/opal-mc-ml/HEAD?filepath=opal_mc_ml.ipynb)|[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/NTW-Muenster/opal-mc-ml/HEAD?filepath=opal_mc_ml_minimal.ipynb)|
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/NTW-Muenster/opal-mc-ml/blob/main/opal_mc_ml.ipynb)|[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/NTW-Muenster/opal-mc-ml/blob/main/opal_mc_ml_minimal.ipynb)
+[WWU JupyterHub](https://jupyterhub.wwu.de/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FNTW-Muenster%2Fopal-mc-ml&urlpath=tree%2Fopal-mc-ml%2Fopal_mc_ml.ipynb&branch=main)|[WWU JupyterHub](https://jupyterhub.wwu.de/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FNTW-Muenster%2Fopal-mc-ml&urlpath=tree%2Fopal-mc-ml%2Fopal_mc_ml_minimal.ipynb&branch=main)
 
 
 ## Technische Details
