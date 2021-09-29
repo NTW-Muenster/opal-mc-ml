@@ -24,22 +24,29 @@ picture_filepath = "events-images/"
 def check_files():
     """Checks if category file in images are at the specified path. If not, they will be downloaded.
     """    
-    import os
+    import os, platform
+    download_command_prefix = ""
+    if platform.system() == "Linux":
+        download_command_prefix = "wget -q -O "
+    elif platform.system() == "Darwin":
+        download_command_prefix = "curl -s -o "
+    else:
+        raise Exception("No automatic download possible on Windows. Please download all files manually.")
+
     if "events-images" in os.listdir():
         print("Images were found")
     else:
         print("Downloading images...", end="")
-        os.system("wget -q -O events-images.zip \"https://raw.githubusercontent.com/NTW-Muenster/opal-mc-ml/main/events-images.zip\"")
+        os.system(download_command_prefix + "events-images.zip \"https://raw.githubusercontent.com/NTW-Muenster/opal-mc-ml/main/events-images.zip\"")
         print(" done!")
         print("Unpacking images...", end="")
         os.system("unzip -q events-images.zip")
         print(" done!")
-
     if "events_list.csv" in os.listdir():
         print("Category list was found")
     else:    
         print("Downloading category list...", end="")
-        os.system("wget -q -O events_list.csv \"https://raw.githubusercontent.com/NTW-Muenster/opal-mc-ml/main/events_list.csv\"")
+        os.system(download_command_prefix + "events_list.csv \"https://raw.githubusercontent.com/NTW-Muenster/opal-mc-ml/main/events_list.csv\"")
         print(" done!")
 
 
