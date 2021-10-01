@@ -18,7 +18,8 @@ import tensorflow as tf
 from tensorflow.keras import layers, models
 
 # Paths to the category file and the images.
-cat_filepath = "events_list.csv"
+cat_filename = "events_list.csv"
+picture_archive_filename = "events-images.zip"
 picture_filepath = "events-images/"
 
 def check_files():
@@ -37,16 +38,16 @@ def check_files():
         print("Images were found")
     else:
         print("Downloading images...", end="")
-        os.system(download_command_prefix + "events-images.zip \"https://raw.githubusercontent.com/NTW-Muenster/opal-mc-ml/main/events-images.zip\"")
+        os.system(download_command_prefix + picture_archive_filename + " \"https://raw.githubusercontent.com/NTW-Muenster/opal-mc-ml/main/events-images.zip\"")
         print(" done!")
         print("Unpacking images...", end="")
-        os.system("unzip -q events-images.zip")
+        os.system("unzip -q " + picture_archive_filename)
         print(" done!")
     if "events_list.csv" in os.listdir():
         print("Category list was found")
     else:    
         print("Downloading category list...", end="")
-        os.system(download_command_prefix + "events_list.csv \"https://raw.githubusercontent.com/NTW-Muenster/opal-mc-ml/main/events_list.csv\"")
+        os.system(download_command_prefix + cat_filename + " \"https://raw.githubusercontent.com/NTW-Muenster/opal-mc-ml/main/events_list.csv\"")
         print(" done!")
 
 
@@ -385,7 +386,7 @@ def load_events():
     Returns:
         List: List of events.
     """    
-    df = pd.read_csv(cat_filepath, delimiter=";", header=None)
+    df = pd.read_csv(cat_filename, delimiter=";", header=None)
     eventlist=[]
     for filename in df[0]:
         sign=df[df[0].str.match(filename)].iat[0,1]
