@@ -31,24 +31,29 @@ def check_files():
         download_command_prefix = "wget -q -O "
     elif platform.system() == "Darwin":
         download_command_prefix = "curl -s -o "
-    else:
-        raise Exception("No automatic download possible on Windows. Please download all files manually.")
 
     if "events-images" in os.listdir():
         print("Images were found")
     else:
-        print("Downloading images...", end="")
-        os.system(download_command_prefix + picture_archive_filename + " \"https://raw.githubusercontent.com/NTW-Muenster/opal-mc-ml/main/events-images.zip\"")
-        print(" done!")
-        print("Unpacking images...", end="")
-        os.system("unzip -q " + picture_archive_filename)
-        print(" done!")
+        if download_command_prefix != "":
+            print("Downloading images...", end="")
+            os.system(download_command_prefix + picture_archive_filename + " \"https://raw.githubusercontent.com/NTW-Muenster/opal-mc-ml/main/events-images.zip\"")
+            print(" done!")
+            print("Unpacking images...", end="")
+            os.system("unzip -q " + picture_archive_filename)
+            print(" done!")
+        else:
+            raise Exception("No images found and no download possible on Windows. Please download all files manually.")
+
     if "events_list.csv" in os.listdir():
         print("Category list was found")
     else:    
-        print("Downloading category list...", end="")
-        os.system(download_command_prefix + cat_filename + " \"https://raw.githubusercontent.com/NTW-Muenster/opal-mc-ml/main/events_list.csv\"")
-        print(" done!")
+        if download_command_prefix != "":
+            print("Downloading category list...", end="")
+            os.system(download_command_prefix + cat_filename + " \"https://raw.githubusercontent.com/NTW-Muenster/opal-mc-ml/main/events_list.csv\"")
+            print(" done!")
+        else:
+            raise Exception("No category list found and no automatic download possible on Windows. Please download all files manually.")
 
 
 class Event(object):
