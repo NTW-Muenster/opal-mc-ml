@@ -28,7 +28,7 @@ Class MLModel
 
 Class Overview
 ======================
-.. autoclass:: MLModel
+.. autoclass:: Overview
    :members:
 
 Further Functions
