@@ -26,6 +26,11 @@ Class MLModel
 .. autoclass:: MLModel
    :members:
 
+Class Overview
+======================
+.. autoclass:: MLModel
+   :members:
+
 Further Functions
 =======================
 .. autofunction:: check_files

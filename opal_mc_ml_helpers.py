@@ -241,6 +241,50 @@ def show_overview(names, *arrays, show_theory=True):
             output += tts(theory[itype]) + "%"
         print(output)
 
+class Overview(object):
+    """An object of this class can create an overview of visible branching ratios. 
+    The method show always prints the current state of the given eventlists and not the state at the time, the list was added.
+    """
+
+    def __init__(self):
+        """Contructor for an overview object.
+        """
+        self.tuplelist=[]
+
+    def add_entry(self, name, eventlist):
+        """Adds a new entry to the overview.
+
+        Args:
+            name (string): Column heading of the entry.
+            eventlist (list): Eventlist of the entry.
+        """
+        self.tuplelist.append((name, eventlist))
+
+    def delete_entry(self, index):
+        """Deletes an entry from the overview.
+
+        Args:
+            index (number): Index of item to be deleted.
+
+        Raises:
+            IndexError: The given index is too low or too high.
+        """
+        if index<0 or index>=len(self.tuplelist):
+            raise IndexError("List index out of range.")
+        del self.tuplelist[index]
+
+    def show(self, show_theory=True):
+        """Prints the overview.
+
+        Args:
+            show_theory (bool, optional): Sets if the theoretical branching ratio is shown. Defaults to True.
+        """
+        names = []
+        eventlists = []
+        for tuple in self.tuplelist:
+            names.append(tuple[0])
+            eventlists.append(tuple[1])
+        show_overview(names, *eventlists, show_theory=True)
 
 def sign_to_number(sign):
     """Converts decay categories signs to numbers.
