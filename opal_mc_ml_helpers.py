@@ -20,7 +20,7 @@ from tensorflow.keras import layers, models
 # Paths to the category file and the images.
 cat_filename = "events_list.csv"
 picture_archive_filename = "events-images.zip"
-picture_filepath = "events-images/"
+picture_filepath = "events-images"
 
 def check_files():
     """Checks if category file in images are at the specified path. If not, they will be downloaded.
@@ -32,20 +32,28 @@ def check_files():
     elif platform.system() == "Darwin":
         download_command_prefix = "curl -s -o "
 
-    if "events-images" in os.listdir():
+    if picture_filepath in os.listdir():
+        # Images available
         print("Images were found")
     else:
-        if download_command_prefix != "":
-            print("Downloading images...", end="")
-            os.system(download_command_prefix + picture_archive_filename + " \"https://raw.githubusercontent.com/NTW-Muenster/opal-mc-ml/main/events-images.zip\"")
-            print(" done!")
-            print("Unpacking images...", end="")
-            os.system("unzip -q " + picture_archive_filename)
-            print(" done!")
+        # Images not available, searching for archive of images
+        if picture_archive_filename in os.listdir():
+            # Archive of images available
+            print("Archive of images already available")
         else:
-            raise Exception("No images found and no download possible on Windows. Please download all files manually.")
+            # Archive of images unavailable, downloading
+            if download_command_prefix != "":
+                print("Downloading images...", end="")
+                os.system(download_command_prefix + picture_archive_filename + " \"https://raw.githubusercontent.com/NTW-Muenster/opal-mc-ml/main/events-images.zip\"")
+                print(" done!")
+            else:
+                raise Exception("No images found and no download possible on Windows. Please download all files manually.")
+        # Unpacking images
+        print("Unpacking images...", end="")
+        os.system("unzip -q " + picture_archive_filename)
+        print(" done!")
 
-    if "events_list.csv" in os.listdir():
+    if cat_filename in os.listdir():
         print("Category list was found")
     else:    
         if download_command_prefix != "":
@@ -439,7 +447,7 @@ def load_events():
     eventlist=[]
     for filename in df[0]:
         sign=df[df[0].str.match(filename)].iat[0,1]
-        eventlist.append(Event(filename, plt.imread(picture_filepath+filename), sign))
+        eventlist.append(Event(filename, plt.imread(picture_filepath + "/" + filename), sign))
     print(len(eventlist), "events loaded")
     return eventlist
 
