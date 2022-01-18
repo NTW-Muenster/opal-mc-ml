@@ -34,6 +34,7 @@ Class Overview
 Further Functions
 =======================
 .. autofunction:: check_files
+.. autofunction:: set_random_seeds
 .. autofunction:: show_image
 .. autofunction:: filenames_from_eventlist
 .. autofunction:: images_from_eventlist

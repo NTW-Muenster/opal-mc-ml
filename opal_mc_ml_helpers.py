@@ -22,6 +22,9 @@ cat_filename = "events_list.csv"
 picture_archive_filename = "events-images.zip"
 picture_filepath = "events-images"
 
+# Random seed
+random_seed = None
+
 def check_files():
     """Checks if category file in images are at the specified path. If not, they will be downloaded.
     """    
@@ -63,6 +66,16 @@ def check_files():
         else:
             raise Exception("No category list found and no automatic download possible on Windows. Please download all files manually.")
 
+def set_random_seeds(seed):
+    """Sets random seeds for Numpy and Tensorflow. The same seed is used for both modules.
+    With given seed, the whole process is not random anymore, but will always produce the same results.
+    The functions split_events_random, augment_events and MLModel.init use this seed. Within these functions, the global seed of Numpy or Tensorflow may be reset.
+
+    Args:
+        seed (number): Seed to be passed.
+    """
+    global random_seed
+    random_seed = seed
 
 class Event(object):
     """An event consists of a filename, an image and a category. Additionally, probabilities from predictions can be stored.
@@ -460,11 +473,11 @@ def load_events():
 # factor is sequence with length 4: all categories are augmented with given factors
 def augment_events(eventlist, factor):
     """The dataset is augmented by copying the images and rotating and/or flipping the randomly. The output is shuffled.
+    Resets Numpy random seed with current value of global variable random_seed.
 
     Args:
         eventlist (list): List of events
         factor (number or list): If factor is a number, all decay channels are augmented by this factor. If factor is a list of four entries, the decay channels are augmented according to the order "q, e, m, t".
-
     Raises:
         ValueError: Factor has unexpected structure.
 
@@ -480,6 +493,8 @@ def augment_events(eventlist, factor):
             raise ValueError("Dimension of factor is not equal to 4.")
     else:
         factor = [factor, factor, factor, factor]
+
+    np.random.seed(random_seed)
 
     # rotate images by random angle and flip randomly
     def rot_mirr_eq(event):
@@ -499,11 +514,12 @@ def augment_events(eventlist, factor):
             eventlist_out.append(rot_mirr_eq(event))
 
     # ensure random distribution
-    eventlist_out = shuffle(eventlist_out)
+    eventlist_out = shuffle(eventlist_out, random_state=random_seed)
     return eventlist_out
 
 def split_events_random(eventlist, fraction_first_block):
     """Splits a list into two lists randomly.
+    Uses global random seed.
 
     Args:
         eventlist (list): List of events.
@@ -514,7 +530,7 @@ def split_events_random(eventlist, fraction_first_block):
             List: List of events (first block),
             List: List of events (second block)
     """    
-    return train_test_split(eventlist, test_size=1-fraction_first_block)
+    return train_test_split(eventlist, test_size=1-fraction_first_block, random_state=random_seed)
 
 def show_false_predictions(true_eventlist, predicted_eventlist, count=5, show_probability=True):
     """Generates an overview with all false predicted events.
@@ -582,6 +598,7 @@ def show_only_one_category(eventlist, category, count=5):
 
 class MLModel:
     """This class is a wrapper for the machine learning model. It simplifies the use of Tensorflow.
+    Resets Tensorflow random seed with value of global variable random_seed.
     
     Attributes:
         model (tf.keras.models): Underlying tensorflow model.
@@ -598,6 +615,7 @@ class MLModel:
         self.training=None
         self.validation=None
         self.train_time=None
+        tf.random.set_seed(random_seed)
 
     def load_structure_default(self):
         """Loads the default model structure. These are three convolution-pooling-layers and two fully connected layers.
