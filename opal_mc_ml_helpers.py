@@ -272,14 +272,24 @@ class Overview(object):
         """
         self.tuplelist=[]
 
-    def add_entry(self, name, eventlist):
-        """Adds a new entry to the overview.
+    def add_entry(self, name, eventlist, overwrite=False):
+        """Adds a new entry to the overview. 
+        There can not be two columns with the same name. In this case nothing will be added.
+        An entry with a certain name can be overwritten.
 
         Args:
             name (string): Column heading of the entry.
             eventlist (list): Eventlist of the entry.
+            overwrite (boolean): If True, a possible entry with the same name will be overwritten with a new eventlist.
         """
-        self.tuplelist.append((name, eventlist))
+        found = False
+        for i in range(len(self.tuplelist)):
+            if self.tuplelist[i][0] == name:
+                if overwrite == True:
+                    self.tuplelist[i] = (name, eventlist)
+                found = True
+        if not found:
+            self.tuplelist.append((name, eventlist))
 
     def delete_entry(self, index):
         """Deletes an entry from the overview.
