@@ -80,6 +80,6 @@ Die verwendete Struktur und Hyperparameters des Modells orientieren sich grob an
 
 The OPAL Machine Learning Masterclass is widely based on the [original OPAL Masterclass](http://www.hep.man.ac.uk/u/events/) from 1997 by Terry Wyatt, Pezouna Pieri, Akram Khan, David Ward, Nigel Watson and Andrew McNab. 
 
-The machine learning "upgrade" is based on an idea by Christian Klein-Bösing. This Masterclass is written by Nicolas Tiltmann.
+The machine learning "upgrade" is based on an idea by Christian Klein-Bösing. This Masterclass is written by Johanna Rätz and Nicolas Tiltmann.
 
 Feel free to report any issues and ideas on this GitHub page.
