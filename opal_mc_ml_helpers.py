@@ -3,6 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import datetime
+import os
+import random
+from PIL import Image
+
 
 # Scikit-learn is used only for performing test-train-splits. It is included in Anaconda
 from sklearn.model_selection import train_test_split
@@ -18,9 +22,13 @@ import tensorflow as tf
 from tensorflow.keras import layers, models
 
 # Paths to the category file and the images.
+
+
 cat_filename = "events_list.csv"
+cat2_filename = "combined_images.csv"
 picture_archive_filename = "events-images.zip"
-picture_filepath = "events-images"
+#picture_filepath = "events-images" old path
+picture_filepath = "centered-masked-rotated1"
 
 # Random seed
 random_seed = None
@@ -468,20 +476,66 @@ def load_events():
     """    
     df = pd.read_csv(cat_filename, delimiter=";", header=None)
     eventlist=[]
+    timer=0
     for filename in df[0]:
+        timer=timer+1
+        print(timer,' of ', df[0].size, ' events loaded', end='\r')
         sign=df[df[0].str.match(filename)].iat[0,1]
-        eventlist.append(Event(filename, plt.imread(picture_filepath + "/" + filename), sign))
-    print(len(eventlist), "events loaded")
+        #eventlist.append(Event(filename, plt.imread(picture_filepath + "/" + filename), sign))
+        #print("path to picture ", filename, " is ", picture_filepath)
+        #print(filename)
+        #print(picture_filepath + "/final/finalcenteredmaskedrotatedopencv" + filename)
+        if os.path.exists(picture_filepath + "/final/finalcenteredmaskedrotatedopencv" + filename):
+            eventlist.append(Event(filename, plt.imread(picture_filepath + "/final/finalcenteredmaskedrotatedopencv" + filename), sign))
+        elif os.path.exists("combinedimages/e/" + filename):
+            eventlist.append(Event(filename, plt.imread("combinedimages/e/" + filename), sign))
+        elif os.path.exists("combinedimages/m/" + filename):
+            eventlist.append(Event(filename, plt.imread("combinedimages/m/" + filename), sign))
+        elif os.path.exists("combinedimages/t/" + filename):
+            eventlist.append(Event(filename, plt.imread("combinedimages/t/" + filename), sign))
+        elif os.path.exists("combinedimages/q/" + filename):
+            eventlist.append(Event(filename, plt.imread("combinedimages/q/" + filename), sign))
+        #print("Append ",filename, " to eventlist","problem handle")
+    print("\n",len(eventlist), "events loaded")
     return eventlist
 
+def load_training_events():
+    """Loads all images from the folder and combines them with category information from .csv file.
 
+    Returns:
+        List: List of events.
+    """    
+    df = pd.read_csv(cat2_filename, delimiter=";", header=None)
+    eventlist=[]
+    timer=-1
+    for filename in df[0]:
+        timer=timer+1
+        print(timer,' of ', df[0].size-1, ' events loaded', end='\r')
+        sign=df[df[0].str.match(filename)].iat[0,1]
+        #eventlist.append(Event(filename, plt.imread(picture_filepath + "/" + filename), sign))
+        #print("path to picture ", filename, " is ", picture_filepath)
+        #print(filename)
+        #print(picture_filepath + "/final/finalcenteredmaskedrotatedopencv" + filename)
+        if os.path.exists(picture_filepath + "/final/finalcenteredmaskedrotatedopencv" + filename):
+            eventlist.append(Event(filename, plt.imread(picture_filepath + "/final/finalcenteredmaskedrotatedopencv" + filename), sign))
+        elif os.path.exists("combinedimages/e/" + filename):
+            eventlist.append(Event(filename, plt.imread("combinedimages/e/" + filename), sign))
+        elif os.path.exists("combinedimages/m/" + filename):
+            eventlist.append(Event(filename, plt.imread("combinedimages/m/" + filename), sign))
+        elif os.path.exists("combinedimages/t/" + filename):
+            eventlist.append(Event(filename, plt.imread("combinedimages/t/" + filename), sign))
+        elif os.path.exists("combinedimages/q/" + filename):
+            eventlist.append(Event(filename, plt.imread("combinedimages/q/" + filename), sign))
+        #print("Append ",filename, " to eventlist","problem handle")
+    print("\n",len(eventlist), "trainig-events loaded")
+    return eventlist
 
 # Augment the dataset by copying the pictures with an integer factor rotating and/or flipping them randomly
 
 # factor is integer: all categories are augmented with same factor
 # factor is sequence with length 3: last 3 categories are augmented with given factors
 # factor is sequence with length 4: all categories are augmented with given factors
-def augment_events(eventlist, factor):
+def augment_events(eventlist, trainingsliste, factor):
     """The dataset is augmented by copying the images and rotating and/or flipping the randomly. The output is shuffled.
     Resets Numpy random seed with current value of global variable random_seed.
 
@@ -506,22 +560,145 @@ def augment_events(eventlist, factor):
 
     np.random.seed(random_seed)
 
+
+
+
+    
     # rotate images by random angle and flip randomly
-    def rot_mirr_eq(event):
-        angle = np.random.randint(0, 360)
-        mirror = np.random.randint(0, 2)
-        image_out = rotate(event.image, angle)
-        if mirror==1:
-            image_out = np.fliplr(image_out)
-        image_out = exposure.rescale_intensity(image_out)
-        return Event(event.filename, image_out, event.category)
+#    def rot_mirr_eq(event):
+#        angle = np.random.randint(0, 360)
+#        mirror = np.random.randint(0, 2)
+#        #ohne Rotation
+#        #image_out = combine(event)
+#        image_out = event.image
+#        #if mirror==1: 
+#        #immer spiegeln
+#        image_out = np.fliplr(image_out)
+#        image_out = exposure.rescale_intensity(image_out)
+#        return Event(event.filename, image_out, event.category)
+        
+# worked here
+    def find_cells_with_string(csv_file, search_string):
+        cells_with_string = []
+    
+        df = pd.read_csv(csv_file)
+    
+        for column in df.columns:
+            cells = df[column].astype(str).str.contains(search_string, na=False)
+            cells_with_string.extend(df[column][cells].tolist())
+    
+        return cells_with_string
+    
+    def find_cell_coordinates_with_string(csv_file, search_string):
+        cell_coordinates=[]
+        df = pd.read_csv(csv_file)
+        for index, row in df.iterrows():
+            for column in df.columns:
+                if search_string in str(row[column]):
+                    cell_coordinates.append((index, column))
+
+        return cell_coordinates
+    
+    def find_elements_with_string(lst, search_string):
+        elements_with_string = [element for element in lst if search_string in element]
+        return elements_with_string
+
+    
+    
+    #def mirr_dup_eq(all_viable_duplicants):
+        #if event.category!='q':
+        #string1=event.filename
+        #all_duplications_with_event=find_cells_with_string(cat2_filename, event.filename.removesuffix('.png'))
+        #all_viable_duplicants=[]
+        #for event2 in eventlist:
+        #    if event2.filename != event.filename:
+        #        all_viable_duplicants.extend(find_elements_with_string(all_duplications_with_event, event.filename.removesuffix('.png')))
+        #all_viable_duplicants = list(set(all_viable_duplicants))
+        #image_out= trainingsliste[find_cell_coordinates_with_string(cat2_filename,random.choice(all_viable_duplicants))[0][0]].image
+        #if all_viable_duplicants==[]:
+        #    print(event.filename ,',', event.category)
+        #else:
+        #    print(all_viable_duplicants)
+        #peter=find_cell_coordinates_with_string(cat2_filename,random.choice(all_viable_duplicants))[0][0]
+        #print(type(peter))
+        #else:
+        #    image_out=event.image
+            
+        #mirror = np.random.randint(0, 2)
+        #if mirror==1:
+        #    image_out = np.fliplr(image_out)
+        #image_out = exposure.rescale_intensity(image_out)
+        
+        #return Event(event.filename, image_out, event.category)
 
     # loop over the images until enough copies are created
     eventlist_out=[]
+    timer=0
     for event in eventlist:
+        timer=timer+1
+        #print("{:03d}".format(timer), "out of",len(eventlist),"events duplicated",end="/r")
+        timer2=0
+        eventlist_out.append(event)
         # for i_factor in range(factor[categories[i_events]]):
-        for i_factor in range(factor[sign_to_number(event.category)]):
-            eventlist_out.append(rot_mirr_eq(event))
+        #print(factor[sign_to_number(event.category)]-1)
+        string1=event.filename
+        all_duplications_with_event=find_cells_with_string(cat2_filename, event.filename.removesuffix('.png')+'_')
+        
+        all_viable_duplicants=[]
+        for event2 in eventlist:
+            if event2.filename != event.filename:
+                all_viable_duplicants.extend(find_elements_with_string(all_duplications_with_event, event2.filename.removesuffix('.png')))
+        all_viable_duplicants = list(set(all_viable_duplicants))
+        #print(timer, all_viable_duplicants) debug
+        #streiche EIntraege bis nur noch factor-1 viele
+        while (len(all_viable_duplicants) > factor[sign_to_number(event.category)]-1):
+            index = random.randint(0, len(all_viable_duplicants) - 1)
+            all_viable_duplicants.pop(index)
+        diff=0
+        if (len(all_viable_duplicants) < factor[sign_to_number(event.category)]-1):
+            image_out3 = np.fliplr(event.image)
+            image_out3 = exposure.rescale_intensity(image_out3)
+            eventlist_out.append(Event(event.filename, image_out3, event.category))
+            diff=(factor[sign_to_number(event.category)]-1)-len(all_viable_duplicants)-1
+            
+        hop=-1
+        for element in all_viable_duplicants:
+            hop=hop+1
+            timer2=timer2+1
+            print("{:03d}".format(timer), "out of",len(eventlist),"events duplicated,","event ","{:03d}".format(timer)," duplicated ","{:02d}".format(timer2)," times",end='\r')
+            image_out= trainingsliste[find_cell_coordinates_with_string(cat2_filename,all_viable_duplicants[hop])[0][0]].image
+            
+            if diff>0:
+                timer2=timer2+1
+                print("{:03d}".format(timer), "out of",len(eventlist),"events duplicated,","event ","{:03d}".format(timer)," duplicated ","{:02d}".format(timer2)," times",end='\r')
+                diff=diff-1
+                image_out2 = np.fliplr(image_out)
+                image_out2 = exposure.rescale_intensity(image_out2)
+                eventlist_out.append(Event(event.filename, image_out2, event.category))
+                
+            image_out = exposure.rescale_intensity(image_out)
+            eventlist_out.append(Event(event.filename, image_out, event.category))
+
+
+        
+    # loop over the images until enough copies are created
+
+    #bilder mit spiegelung 
+    #eventlist_out=[]
+    #for event in eventlist:
+        #eventlist_out.append(event)
+       
+    #    for i_factor in range((factor[sign_to_number(event.category)])-1):
+        
+     #       eventlist_out.append(rot_mirr_eq(event))
+        
+    #alle random
+    #for event in eventlist:
+        # for i_factor in range(factor[categories[i_events]]):
+    #    for i_factor in range(factor[sign_to_number(event.category)]):
+            
+    #        eventlist_out.append(rot_mirr_eq(event))
+            
 
     # ensure random distribution
     eventlist_out = shuffle(eventlist_out, random_state=random_seed)
@@ -542,6 +719,8 @@ def split_events_random(eventlist, fraction_first_block):
     """    
     return train_test_split(eventlist, test_size=1-fraction_first_block, random_state=random_seed)
 
+
+    
 def show_false_predictions(true_eventlist, predicted_eventlist, count=5, show_probability=True):
     """Generates an overview with all false predicted events.
 
@@ -586,6 +765,19 @@ def filter_by_category(eventlist, category):
         if event.category == category:
             outlist.append(event)
     return outlist
+    
+#working here
+def split_events_random_in_category(eventlist, fraction_first_block):
+    split_list1=[]
+    split_list2=[]
+    for it in range(4):
+        catergorylist=filter_by_category(eventlist, number_to_sign(it))
+        append1, append2 = split_events_random(catergorylist, fraction_first_block)
+        split_list1.extend(append1)
+        split_list2.extend(append2)
+    return [split_list1, split_list2]
+        
+
 
 def show_only_one_category(eventlist, category, count=5):
     """Show all (or a few) events of one category in an eventlist.
