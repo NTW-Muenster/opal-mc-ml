@@ -642,12 +642,12 @@ def augment_events(eventlist, trainingsliste, factor):
         # for i_factor in range(factor[categories[i_events]]):
         #print(factor[sign_to_number(event.category)]-1)
         string1=event.filename
-        all_duplications_with_event=find_cells_with_string(cat2_filename, event.filename.removesuffix('.png')+'_')
+        all_duplications_with_event=find_cells_with_string(cat2_filename, event.filename.rstrip(".png")+'_')
         
         all_viable_duplicants=[]
         for event2 in eventlist:
             if event2.filename != event.filename:
-                all_viable_duplicants.extend(find_elements_with_string(all_duplications_with_event, event2.filename.removesuffix('.png')))
+                all_viable_duplicants.extend(find_elements_with_string(all_duplications_with_event, event2.filename.rstrip(".png")))
         all_viable_duplicants = list(set(all_viable_duplicants))
         #print(timer, all_viable_duplicants) debug
         #streiche EIntraege bis nur noch factor-1 viele
@@ -704,7 +704,7 @@ def augment_events(eventlist, trainingsliste, factor):
     eventlist_out = shuffle(eventlist_out, random_state=random_seed)
     return eventlist_out
 
-def split_events_random(eventlist, fraction_first_block):
+def split_events_random_all(eventlist, fraction_first_block):
     """Splits a list into two lists randomly.
     Uses global random seed.
 
@@ -767,12 +767,12 @@ def filter_by_category(eventlist, category):
     return outlist
     
 #working here
-def split_events_random_in_category(eventlist, fraction_first_block):
+def split_events_random(eventlist, fraction_first_block):
     split_list1=[]
     split_list2=[]
     for it in range(4):
         catergorylist=filter_by_category(eventlist, number_to_sign(it))
-        append1, append2 = split_events_random(catergorylist, fraction_first_block)
+        append1, append2 = split_events_random_all(catergorylist, fraction_first_block)
         split_list1.extend(append1)
         split_list2.extend(append2)
     return [split_list1, split_list2]
