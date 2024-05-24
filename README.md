@@ -15,7 +15,7 @@ Die Eingabe besteht dabei nur aus den (leicht vorverarbeiteten) Ereignisbildern 
 Die Dokumentation der verwendeten Klassen und Funktionen kann hier eingesehen werden: [Read the Docs](https://opal-mc-ml.readthedocs.io/en/latest/) (englisch)
 
 ## Programm ausführen
-Das Programm besteht immer aus einem IPython-Notebook und einer Python-Datei. Das volle Programm ist in der Datei [opal_mc_ml.ipynb](opal_mc_ml.ipynb) vorhanden. Das Notebook [opal_mc_ml_minimal.ipynb](opal_mc_ml_minimal.ipynb) importiert nur alle Hilfsfunktionen aus der Python-Datei. Der Rest kann dann von Hand erarbeitet werden
+Das Programm besteht immer aus einem IPython-Notebook und einer Python-Datei. Das volle Programm ist in der Datei [mc_ml_loesung.ipynb](mc_ml_loesung.ipynb) vorhanden. Das Notebook [mc_ml_minimal.ipynb](mc_ml_minimal.ipynb) importiert nur alle Hilfsfunktionen aus der Python-Datei. Der Rest kann dann von Hand erarbeitet werden. Die Datei [mc_ml_sus.ipynb](mc_ml_sus.ipynb) ist vorbereitet für die Anwendung mit Schülerinnen und Schülern und besitzt ein Grundgerüst an Code kombiniert mit Programmieraufgaben.
 
 Folgende Bibliotheken werden benötigt:
 |Name|[Anaconda](https://www.anaconda.com/)|[mybinder.org](https://mybinder.org)|[Google Colab](https://colab.research.google.com/)|[WWU JupyterHub](https://jupyterhub.wwu.de/)
@@ -44,11 +44,11 @@ Bei Google Colab lässt sich alles einwandfrei ausführen. Google stellt den Nut
 Im JupyterHub der [WWU](https://uni-muenster.de) muss scikit-image für jeden User einzeln mit dem Befehl `pip install --user scikit-image` installiert werden. Das Trainieren funktioniert nur einwandfrei, wenn die Option mit 8GB Arbeitsspeicher gewählt wird. Eine WWU-Kennung wird benötigt.
 
 ### Links
-|Full|Minimal|
-|---|---|
-|[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/NTW-Muenster/opal-mc-ml/HEAD?filepath=opal_mc_ml.ipynb)|[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/NTW-Muenster/opal-mc-ml/HEAD?filepath=opal_mc_ml_minimal.ipynb)|
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/NTW-Muenster/opal-mc-ml/blob/main/opal_mc_ml.ipynb)|[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/NTW-Muenster/opal-mc-ml/blob/main/opal_mc_ml_minimal.ipynb)
-[WWU JupyterHub](https://jupyterhub.wwu.de/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FNTW-Muenster%2Fopal-mc-ml&urlpath=tree%2Fopal-mc-ml%2Fopal_mc_ml.ipynb&branch=main)|[WWU JupyterHub](https://jupyterhub.wwu.de/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FNTW-Muenster%2Fopal-mc-ml&urlpath=tree%2Fopal-mc-ml%2Fopal_mc_ml_minimal.ipynb&branch=main)
+|Normal|Minimal|Lösung|
+|---|---|---|
+|[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/NTW-Muenster/opal-mc-ml/HEAD?filepath=mc_ml_sus.ipynb)|[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/NTW-Muenster/opal-mc-ml/HEAD?filepath=mc_ml_minimal.ipynb)|[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/NTW-Muenster/opal-mc-ml/HEAD?filepath=mc_ml_loesung.ipynb)|
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/NTW-Muenster/opal-mc-ml/blob/main/mc_ml_sus.ipynb)|[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/NTW-Muenster/opal-mc-ml/blob/main/mc_ml_minimal.ipynb)|[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/NTW-Muenster/opal-mc-ml/blob/main/mc_ml_loesung.ipynb)
+[WWU JupyterHub](https://jupyterhub.wwu.de/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FNTW-Muenster%2Fopal-mc-ml&urlpath=tree%2Fopal-mc-ml%2Fmc_ml_sus.ipynb&branch=main)|[WWU JupyterHub](https://jupyterhub.wwu.de/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FNTW-Muenster%2Fopal-mc-ml&urlpath=tree%2Fopal-mc-ml%2Fmc_ml_minimal.ipynb&branch=main)|[WWU JupyterHub](https://jupyterhub.wwu.de/hub/user-redirect/git-pull?repo=https%3A%2F%2Fgithub.com%2FNTW-Muenster%2Fopal-mc-ml&urlpath=tree%2Fopal-mc-ml%2Fmc_ml_loesung.ipynb&branch=main)
 
 
 ## Technische Details
